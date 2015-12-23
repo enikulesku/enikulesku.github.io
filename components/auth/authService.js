@@ -1,13 +1,14 @@
-// components/auth/authService.js
+(function() {
 
-(function()
-	'use strict';
+  'use strict';
 
-	angular
-		.module('statusApp')
-		.factory('Auth', AuthService);
-	function AuthService($firebaseAuth) {
-		var ref = new Firebase("https://statusapp.firebaseio.com");
-		return $firebaseAuth(ref);
-	}
+  angular
+    .module('statusApp')
+    .factory('Auth', AuthService);
+
+  function AuthService($firebaseAuth) {
+    var ref = new Firebase("https://statusangularapp.firebaseio.com");
+    return $firebaseAuth(ref);
+  }
+
 })();
