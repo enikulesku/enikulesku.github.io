@@ -8,7 +8,7 @@
 
   function PowerService($firebaseArray) {
     var ref = new Firebase("https://vygoda.firebaseio.com/power");
-    return $firebaseArray(ref);
+    return $firebaseArray(ref.orderByChild("date"));
   }
 
 })();

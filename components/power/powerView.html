@@ -1,24 +1,76 @@
-<md-input-container>
-  <label>Status</label>
-  <textarea ng-model="status.statusText" type="text"></textarea>
-</md-input-container>
-<md-button class="md-raised md-warn" ng-click="status.addStatus()">Post</md-button>
+<div layout="row">
+    <md-card>
+        <md-card-content>
+            <div layout="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Ночь</label>
+                    <input name="night" required ng-model="formData.night"/>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>День</label>
+                    <input name="day" required ng-model="formData.day"/>
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <md-checkbox ng-model="formData.reset" aria-label="Последний показатель">Последний показатель
+                </md-checkbox>
+            </div>
+            <div layout="row">
+                <mdp-date-picker mdp-open-on-click mdp-format="DD/MM/YYYY" ng-model="formData.date"></mdp-date-picker>
+                <mdp-time-picker mdp-open-on-click mdp-format="HH:mm" ng-model="formData.date"></mdp-time-picker>
+            </div>
+            <div layout="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <md-button class="md-raised md-warn" ng-click="power.addPower()">Отправить</md-button>
+                </md-input-container>
+            </div>
+        </md-card-content>
+    </md-card>
+
+    <md-card>
+        <md-card-content>
+            <md-list flex>
+                <md-list-item class="md-3-line">
+                    <div class="md-list-item-text" layout="column">
+                        <h3>Всего</h3>
+                        <h4><b>{{total}}</b> / {{ limit }} КВт</h4>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                    <div class="md-list-item-text" layout="column">
+                        <h3>Среднее</h3>
+                        <h4>{{ avg | number : 2 }} КВт/ч</h4>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                    <div class="md-list-item-text" layout="column">
+                        <h3>К концу месяца</h3>
+                        <h4><b ng-class='{red : expectedTotal > limit, yellow : expectedTotal > limit - 200, green: expectedTotal <= limit - 200}'>{{expectedTotal | number : 0}}</b> / {{ limit }} КВт/ч</h4>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                   <div class="md-list-item-text" layout="column">
+                        <h3>Ночь - День</h3>
+                        <h4>{{nightTotal}} - {{ dayTotal }} КВт </h4>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+</div>
+
 
 <md-content>
-  <md-list>
-    <md-list-item class="md-3-line" ng-repeat="statusItem in status.statusData | orderBy:'-date'">
-      <img ng-src="http://www.gravatar.com/avatar/{{status.md5.createHash(statusItem.user.email)}}" class="face" alt="{{statusItem.user.username}}">
-      <div class="md-list-item-text">
-        <h3>{{statusItem.user.username}}</h3>
-        <span>{{statusItem.date | date:'mediumDate'}}</span>
-        <p>{{statusItem.text}}</p>                
-      </div>
-      <md-divider md-inset></md-divider>
-      <md-icon class="remove-status" 
-          ng-if="statusItem.user.username === loggedInUserData.username" 
-          ng-click="status.deleteStatus(statusItem)">
-          X
-      </md-icon>
-    </md-list-item>
-  </md-list>
+    <md-list>
+        <md-list-item class="md-3-line" ng-repeat="statusItem in power.powerData | orderBy:'-date'">
+            <div class="row">
+                <md-button class="md-primary" ng-click="power.deletePower(statusItem)">del</md-button>
+                <b>{{statusItem.date | date:'mediumDate'}}</b>
+                {{statusItem.night}} - {{statusItem.day}}
+                <b ng-show="statusItem.reset">последний показатель</b>
+            </div>
+            <md-divider md-inset></md-divider>
+            </md-icon>
+        </md-list-item>
+    </md-list>
 </md-content>

@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('powerApp', ['firebase', 'ngMaterial', 'angular-md5', 'ui.router'])
+		.module('powerApp', ['firebase', 'ngMaterial', 'angular-md5', 'ui.router', 'mdPickers'])
 		.config(function($stateProvider, $urlRouterProvider) {
 
 		// If a route other than status is requested,

@@ -10,3 +10,13 @@
   color: red;
   font-weight: bold;
 }
+
+.red.yellow {
+color: red
+}
+.green {
+color: green;
+}
+.yellow {
+color: #DAA520;
+}

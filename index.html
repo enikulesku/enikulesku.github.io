@@ -6,13 +6,11 @@
 	<link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="node_modules/mdPickers/dist/mdPickers.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body ng-app="powerApp">
-	<div layout="row">		
-		<div flex="33" offset="33">
-			<div ui-view></div>
-		</div>
-	</div>
+	<div ui-view></div>
 </body>
 	
 	<!-- Application Dependencies -->
@@ -24,6 +22,8 @@
 	<script src="https://cdn.firebase.com/js/client/2.2.6/firebase.js"></script>
 	<script src="node_modules/angularfire/dist/angularfire.js"></script>
 	<script src="node_modules/angular-md5/angular-md5.js"></script>
+	<script src="node_modules/moment/moment.js"></script>
+	<script src="node_modules/mdPickers/dist/mdPickers.js"></script>
 
 	<!-- Application Scripts -->
 	<script src="app.js"></script>
