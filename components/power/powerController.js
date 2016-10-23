@@ -3,17 +3,17 @@
 	'use strict';
 
 	angular
-		.module('statusApp')
-		.controller('StatusController', StatusController);
+		.module('powerApp')
+		.controller('PowerController', PowerController);
 
-	function StatusController($rootScope, Status, md5) {
+	function PowerController($rootScope, Power, md5) {
 
 		var vm = this;
 
 		vm.addStatus = addStatus;
 		vm.deleteStatus = deleteStatus;
 		vm.md5 = md5;
-		vm.statusData = Status;
+		vm.statusData = Power;
 
 		function addStatus() {
 			if(vm.statusText) {
@@ -23,8 +23,8 @@
 					date: Firebase.ServerValue.TIMESTAMP,
 					text: vm.statusText,
 					user: {
-						username: $rootScope.loggedInUserData.username,
-						email: $rootScope.loggedInUserData.email
+						username: "",
+						email: "jjj"
 					}
 				});
 				vm.statusText = '';

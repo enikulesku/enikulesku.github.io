@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('statusApp', ['firebase', 'ngMaterial', 'angular-md5', 'ui.router'])
+		.module('powerApp', ['firebase', 'ngMaterial', 'angular-md5', 'ui.router'])
 		.config(function($stateProvider, $urlRouterProvider) {
 
 		// If a route other than status is requested,
@@ -16,10 +16,10 @@
 				templateUrl: 'components/auth/authView.html',
 				controller: 'AuthController as auth'
 			})
-			.state('status', {
-				url: '/status',
-				templateUrl: 'components/status/statusView.html',
-				controller: 'StatusController as status'
+			.state('power', {
+				url: '/power',
+				templateUrl: 'components/power/powerView.html',
+				controller: 'PowerController as power'
 			});
 		})
 		.run(function($rootScope, $state, User) {

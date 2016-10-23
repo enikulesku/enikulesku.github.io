@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('statusApp')
+		.module('powerApp')
 		.factory('User', UserService);
 
 	function UserService($firebaseObject) {

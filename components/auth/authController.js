@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('statusApp')
+		.module('powerApp')
 		.controller('AuthController', AuthController);
 
 	function AuthController(Auth, User, $state) {
@@ -41,7 +41,7 @@
 				vm.email = null;
 				vm.password = null;
 
-				$state.go('status');
+				$state.go('power');
 			}, function(error) {
 				console.log("there was an error! " + error);
 			});
@@ -56,7 +56,7 @@
 			}).then(function(data) {
 				vm.email = null;
 				vm.password = null;
-				$state.go('status');
+				$state.go('power');
 			}).catch(function(error) {
 				console.log(error);
 			});
