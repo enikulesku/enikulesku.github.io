@@ -14,6 +14,8 @@
         $scope.dayTotal = "?";
         $scope.limit = 3600;
         $scope.expectedTotal = "?";
+        $scope.firstTariff = 0.714;
+        $scope.secondTariff = 1.638;
 
         $scope.formData = {
             date: new Date(),
@@ -55,9 +57,15 @@
             }
 
             var hoursLeft = getHours(firstDayOfNextMonth.getTime() - last.date);
-            console.log(hoursLeft);
-            console.log($scope.avg);
             $scope.expectedTotal = $scope.total + hoursLeft * $scope.avg;
+
+            var dayPart = $scope.dayTotal / $scope.total;
+
+            var expectedDay = $scope.expectedTotal * dayPart;
+            var expectedNight = $scope.expectedTotal * (1 - dayPart);
+
+            $scope.totalPrice = $scope.firstTariff * expectedDay + $scope.firstTariff * expectedNight / 2;
+
         });
 
 		vm.addPower = addPower;

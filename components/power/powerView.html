@@ -46,6 +46,7 @@
                     <div class="md-list-item-text" layout="column">
                         <h3>К концу месяца</h3>
                         <h4><b ng-class='{red : expectedTotal > limit, yellow : expectedTotal > limit - 200, green: expectedTotal <= limit - 200}'>{{expectedTotal | number : 0}}</b> / {{ limit }} КВт/ч</h4>
+                        <h4>{{totalPrice | number: 2}} грн</h4>
                     </div>
                 </md-list-item>
                 <md-list-item class="md-3-line">
