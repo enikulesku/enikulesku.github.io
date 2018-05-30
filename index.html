@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-12 col-md-2">
             <form>
-                <button type="button" class="btn btn-sm btn-primary" ng-click="changeQuestion(index - 1)">Назад</button>
+                <button type="button" class="btn btn-sm btn-primary" ng-click="goTo(index - 1)">Назад</button>
             </form>
         </div>
         <div class="col-12 col-md-2"><h2>{{ index + 1 }} / {{ questions.length }}</h2></div>
@@ -30,7 +30,7 @@
 
         <div class="col-12 col-md-2">
             <form>
-                <button type="button" class="btn btn-sm btn-primary" ng-click="changeQuestion(index + 1)">Следующий</button>
+                <button type="button" class="btn btn-sm btn-primary" ng-click="goTo(index + 1)">Следующий</button>
             </form>
         </div>
     </div>
@@ -65,12 +65,16 @@ tests.forEach(function(theme) {
     questions.push(question)
   });
 });
-    
+
     angular.module('myApp', ['ui.bootstrap'])
-      .controller('MyController', ['$scope', function ($scope) {
-        $scope.index = 0;
+      .controller('MyController', ['$scope', '$location', function ($scope, $location) {
+        var searchObject = $location.search();
+
+        $scope.index = searchObject && searchObject.hasOwnProperty("question") ? parseInt(searchObject.question) - 1 : 0;
         $scope.questions = questions;
         $scope.done = false;
+
+
 
         $scope.changeQuestion = function(id) {
           if (id > $scope.questions.length -1) {
@@ -114,7 +118,6 @@ tests.forEach(function(theme) {
         }
 
         $scope.btnClass = function(id) {
-        console.log("styleFunction "+$scope.question.answers[id].value);
           if ($scope.done) {
             if ($scope.question.answers[id].value === 0 && $scope.selection[id] === true) {
               return "btn-danger";
@@ -128,6 +131,18 @@ tests.forEach(function(theme) {
           }
 
           return "btn-default";
+        }
+
+        $scope.goTo = function(id) {
+          if (id > $scope.questions.length -1) {
+            id = 0;
+          } else if (id < 0) {
+            id = $scope.questions.length -1;
+          }
+
+          $scope.changeQuestion(id);
+
+          $location.search({question: id + 1});
         }
       }]);
 
