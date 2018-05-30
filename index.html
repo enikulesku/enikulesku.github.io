@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+    <script src="moz.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body ng-controller="MyController">
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-2">
+            <form>
+                <button type="button" class="btn btn-sm btn-primary" ng-click="changeQuestion(index - 1)">Назад</button>
+            </form>
+        </div>
+        <div class="col-12 col-md-2"><h2>{{ index + 1 }} / {{ questions.length }}</h2></div>
+
+        <div class="col-12 col-md-2">
+            <form>
+                <button type="button" style="width:100%" class="btn btn-sm btn-primary" ng-click="finish()">Готово</button>
+            </form>
+        </div>
+
+        <div class="col-12 col-md-2">
+            <form>
+                <button type="button" class="btn btn-sm btn-primary" ng-click="changeQuestion(index + 1)">Следующий</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin-left: 50px">
+    <div class="row">
+        <h4>{{ question.text }}</h4>
+    </div>
+    <div class="row" ng-repeat="answer in question.answers">
+        <div class="col-md-5">
+            <button  type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }}</button>
+        </div>
+    </div>
+    <div class="row">
+       <h4 ng-if="result">Результат: {{ result }}</h4>
+    </div>
+
+
+</div>
+
+<script>
+    angular.module('myApp', ['ui.bootstrap'])
+      .controller('MyController', ['$scope', function ($scope) {
+        $scope.index = 0;
+        $scope.questions = questions;
+        $scope.done = false;
+
+        $scope.changeQuestion = function(id) {
+          if (id > $scope.questions.length -1) {
+            id = 0;
+          } else if (id < 0) {
+            id = $scope.questions.length -1;
+          }
+
+          $scope.index = id;
+
+          $scope.question = $scope.questions[id];
+          $scope.selection = {};
+          $scope.done = false;
+          delete $scope.result;
+        }
+
+        $scope.changeQuestion($scope.index);
+
+        $scope.select = function(id) {
+          if ($scope.selection[id]) {
+            $scope.selection[id] = false;
+          } else {
+            $scope.selection[id] = true;
+          }
+        }
+
+        $scope.finish = function() {
+          $scope.done = true;
+
+          var total = 0;
+          var current = 0;
+
+          $scope.question.answers.forEach(function(el, id) {
+            total += el.value;
+            if ($scope.selection[id] === true) {
+              current += el.value;
+            }
+          });
+
+          $scope.result = current + " из " + total;
+        }
+
+        $scope.btnClass = function(id) {
+        console.log("styleFunction "+$scope.question.answers[id].value);
+          if ($scope.done) {
+            if ($scope.question.answers[id].value === 0 && $scope.selection[id] === true) {
+              return "btn-danger";
+            } else if ($scope.question.answers[id].value > 0) {
+              return "btn-success";
+            }
+          } else {
+            if ($scope.selection[id]) {
+              return "btn-warning";
+            }
+          }
+
+          return "btn-default";
+        }
+      }]);
+
+    angular.element(function() {
+      angular.bootstrap(document, ['myApp']);
+    });
+  </script>
+</body>
+</html>
