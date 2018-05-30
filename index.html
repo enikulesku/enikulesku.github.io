@@ -42,7 +42,7 @@
     </div>
     <div class="row" ng-repeat="answer in question.answers">
         <div class="col-md-5">
-            <button  type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }}</button>
+            button  type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b ng-if="done"> - {{answer.value}}</b></button>
         </div>
     </div>
     <div class="row">
@@ -107,7 +107,7 @@ tests.forEach(function(theme) {
             }
           });
 
-          $scope.result = current + " из " + total;
+          $scope.result = current + " из " + total + "  ( " + Math.round(current / total * 100)  + "% )";
         }
 
         $scope.btnClass = function(id) {
