@@ -12,38 +12,29 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
-<body ng-controller="MyController">
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <form>
-                <input style="width: 100%" type="text" ng-model="q" ng-change="search(q)">
-            </form>
-        </div>
-        <div class="col-12 col-md-2">
-            <form>
-                <button class="btn btn-sm btn-primary" type="button" ng-click="clear(); q = '';">Очистить</button>
-            </form>
-        </div>
-    </div>
-    <div class="row" ng-repeat="(key, value) in results | limitTo: 10">
-        <div class="col-md-5">
-            <button  type="button" class="btn-default btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
-        </div>
-    </div>
-</div>
+<body ng-controller="MyController" style="margin-left: 20px">
 
-<div class="container" style="margin-left: 50px">
+    <div class="row">
+                <input style="width: 80%; font-size:20px;" type="text" ng-model="q" ng-change="search(q)">
+
+                <button class="btn btn-sm btn-primary" type="button" ng-click="clear(); q = '';">Очистить</button>
+
+    </div>
+    <div class="row" ng-repeat="(key, value) in results">
+
+            <button style="font-size:20px;"  type="button" class="btn-default btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
+
+    </div>
+
+
+<div class="container">
     <div class="row">
         <h4>{{ question.text }}</h4>
     </div>
     <div class="row" ng-repeat="answer in question.answers">
         <div class="col-md-5">
-            <button  type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b > - {{answer.value}}</b></button>
+            <button style="font-size:20px;" type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b > - {{answer.value}}</b></button>
         </div>
-    </div>
-    <div class="row">
-       <h4 ng-if="result">Результат: {{ result }}</h4>
     </div>
     <br/>
     <br/>
