@@ -22,14 +22,12 @@
     </div>
     <div class="row" ng-repeat="(key, value) in results">
 
-            <button style="font-size:40px;"  type="button" class="btn-default btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
+            <button style="font-size:40px;" ng-class="btnClass2(key)"  type="button" class="btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
 
     </div>
+<hr/>
 
-
-    <div class="row">
-        <p style="font-size:40px;">{{ question.text }}</p>
-    </div>
+ <hr/>
     <div class="row" ng-repeat="answer in question.answers">
         <div class="col-md-5">
             <button style="font-size:40px;" type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b > - {{answer.value}}</b></button>
@@ -117,6 +115,14 @@ try {
         $scope.btnClass = function(id) {
             if ($scope.question.answers[id].value > 0) {
               return "btn-success";
+            }
+
+          return "btn-default";
+        }
+
+        $scope.btnClass2 = function(id) {
+            if ($scope.index === id) {
+              return "btn-warning";
             }
 
           return "btn-default";
