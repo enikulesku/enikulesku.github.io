@@ -22,7 +22,7 @@
     </div>
     <div class="row" ng-repeat="(key, value) in results">
 
-            <button style="font-size:40px;" ng-class="btnClass2(key)"  type="button" class="btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
+            <button style="font-size:40px;" ng-class="btnClass2(key, index)"  type="button" class="btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
 
     </div>
 <hr/>
@@ -30,7 +30,7 @@
  <hr/>
     <div class="row" ng-repeat="answer in question.answers">
         <div class="col-md-5">
-            <button style="font-size:40px;" type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b > - {{answer.value}}</b></button>
+            <button style="font-size:40px;" type="button" ng-class="btnClass($index)" class="btn btn-sm">{{ answer.text }} <b > - {{answer.value}}</b></button>
         </div>
     </div>
     <br/>
@@ -79,7 +79,7 @@ tests.forEach(function(theme) {
            if (words.length === 0 ) {
            return;
            }
-
+            var first = true;
 var BreakException = {};
 
 try {
@@ -98,6 +98,12 @@ try {
 
               if (result) {
                 $scope.results[index] = text;
+
+                if (first) {
+                  first = false;
+                  $scope.index = index;
+                  $scope.changeQuestion(index);
+                }
               }
 
               if (Object.keys($scope.results).length > 10 ) {
