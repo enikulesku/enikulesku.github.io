@@ -13,26 +13,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body ng-controller="MyController">
-<a target="_blank" href="search.html">Поиск</a>
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-2">
+        <div class="col-12 col-md-6">
             <form>
-                <button type="button" class="btn btn-sm btn-primary" ng-click="goTo(index - 1)">Назад</button>
+                <input style="width: 100%" type="text" ng-model="q" ng-change="search(q)">
             </form>
         </div>
-        <div class="col-12 col-md-2"><h2>{{ index + 1 }} / {{ questions.length }}</h2></div>
-
         <div class="col-12 col-md-2">
             <form>
-                <button type="button" style="width:100%" class="btn btn-sm btn-primary" ng-click="finish()">Готово</button>
+                <button class="btn btn-sm btn-primary" type="button" ng-click="clear(); q = '';">Очистить</button>
             </form>
         </div>
-
-        <div class="col-12 col-md-2">
-            <form>
-                <button type="button" class="btn btn-sm btn-primary" ng-click="goTo(index + 1)">Следующий</button>
-            </form>
+    </div>
+    <div class="row" ng-repeat="(key, value) in results | limitTo: 10">
+        <div class="col-md-5">
+            <button  type="button" class="btn-default btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
         </div>
     </div>
 </div>
@@ -43,7 +39,7 @@
     </div>
     <div class="row" ng-repeat="answer in question.answers">
         <div class="col-md-5">
-            <button  type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b ng-if="done && answer.value > 0"> - {{answer.value}}</b></button>
+            <button  type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b > - {{answer.value}}</b></button>
         </div>
     </div>
     <div class="row">
@@ -73,9 +69,8 @@ tests.forEach(function(theme) {
 
         $scope.index = searchObject && searchObject.hasOwnProperty("question") ? parseInt(searchObject.question) - 1 : 0;
         $scope.questions = questions;
-        $scope.done = false;
-
-
+        $scope.q = "";
+        $scope.results = {};
 
         $scope.changeQuestion = function(id) {
           if (id > $scope.questions.length -1) {
@@ -87,49 +82,53 @@ tests.forEach(function(theme) {
           $scope.index = id;
 
           $scope.question = $scope.questions[id];
-          $scope.selection = {};
-          $scope.done = false;
-          delete $scope.result;
+        }
+
+        $scope.search = function(q) {
+           var words = q.toLowerCase().split(" ");
+
+           $scope.results = {};
+
+           if (words.length === 0 ) {
+           return;
+           }
+
+var BreakException = {};
+
+try {
+
+
+           $scope.questions.forEach(function(element, index) {
+              var text = element.text.toLowerCase();
+
+              var result = true;
+
+              words.forEach(function(word) {
+                if (text.indexOf(word) === -1) {
+                  result = false;
+                }
+              });
+
+              if (result) {
+                $scope.results[index] = text;
+              }
+
+              if (Object.keys($scope.results).length > 10 ) {
+                throw BreakException;
+              }
+           });
+           } catch (e) {
+  if (e !== BreakException) throw e;
+}
+
         }
 
         $scope.changeQuestion($scope.index);
 
-        $scope.select = function(id) {
-          if ($scope.selection[id]) {
-            $scope.selection[id] = false;
-          } else {
-            $scope.selection[id] = true;
-          }
-        }
-
-        $scope.finish = function() {
-          $scope.done = true;
-
-          var total = 0;
-          var current = 0;
-
-          $scope.question.answers.forEach(function(el, id) {
-            total += el.value;
-            if ($scope.selection[id] === true) {
-              current += el.value;
-            }
-          });
-
-          $scope.result = current + " из " + total + "  ( " + Math.round(current / total * 100)  + "% )";
-        }
-
         $scope.btnClass = function(id) {
-          if ($scope.done) {
-            if ($scope.question.answers[id].value === 0 && $scope.selection[id] === true) {
-              return "btn-danger";
-            } else if ($scope.question.answers[id].value > 0) {
+            if ($scope.question.answers[id].value > 0) {
               return "btn-success";
             }
-          } else {
-            if ($scope.selection[id]) {
-              return "btn-warning";
-            }
-          }
 
           return "btn-default";
         }
@@ -144,6 +143,11 @@ tests.forEach(function(theme) {
           $scope.changeQuestion(id);
 
           $location.search({question: id + 1});
+        }
+
+        $scope.clear = function() {
+          $scope.q = "";
+          $scope.results = {};
         }
       }]);
 
