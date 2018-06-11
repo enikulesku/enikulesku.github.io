@@ -15,24 +15,24 @@
 <body ng-controller="MyController" style="margin-left: 20px">
 
     <div class="row">
-                <input style="width: 80%; font-size:30px;" type="text" ng-model="q" ng-change="search(q)">
+                <input style="width: 80%; font-size:40px;" type="text" ng-model="q" ng-change="search(q)">
 
                 <button class="btn btn-sm btn-primary" type="button" ng-click="clear(); q = '';">Очистить</button>
 
     </div>
     <div class="row" ng-repeat="(key, value) in results">
 
-            <button style="font-size:30px;"  type="button" class="btn-default btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
+            <button style="font-size:40px;"  type="button" class="btn-default btn btn-sm" ng-click="goTo(key)">{{ value }}</button>
 
     </div>
 
 
     <div class="row">
-        <p style="font-size:32px;">{{ question.text }}</p>
+        <p style="font-size:40px;">{{ question.text }}</p>
     </div>
     <div class="row" ng-repeat="answer in question.answers">
         <div class="col-md-5">
-            <button style="font-size:30px;" type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b > - {{answer.value}}</b></button>
+            <button style="font-size:40px;" type="button" ng-class="btnClass($index)" class="btn btn-sm" ng-click="select($index)">{{ answer.text }} <b > - {{answer.value}}</b></button>
         </div>
     </div>
     <br/>
